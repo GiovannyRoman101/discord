@@ -6,33 +6,27 @@ class CreateChannelForm extends Component{
 	constructor(props){
 		super(props)
 		this.state = {
-			name:'',
+			channel_name:'',
 			description:''
 		}
 	}
 	onNameChange(event){
-		this.setState({...this.state, name: event.target.value})
+		this.setState({...this.state, channel_name: event.target.value})
 	}
 	onDescriptionChange(event){
 		this.setState({...this.state, description:event.target.value})
 	}
-	onSubmit(){
-		const {email,password} = this.state
-		this.createUser(email,password)
-	}
-
 
 	createChannel(){
-		const {user} = this.props
-		console.log(user)
-		console.log(this.state)
-		const {name,description} =this.state
-		firebase.database().ref('/channels').set({
-			name,
+		const {name,isCreated} = this.props		
+		const {channel_name,description} =this.state
+		firebase.database().ref('/channels').push({
+			channel_name,
 			description,
-			createdby: user.username,
+			createdby: name,
 			messages: []
 		})
+		isCreated()
 	}
 	render(){
 		const {buttonStyle, inputContainer} = styles
@@ -43,7 +37,7 @@ class CreateChannelForm extends Component{
 				<input type= 'text' 
 					placeholder ='Philip Fry'
 					style ={inputContainer}
-					value = {this.state.name}
+					value = {this.state.channel_name}
 					onChange = {this.onNameChange.bind(this)}required></input>
 				</label>
 				<br/>
@@ -51,12 +45,12 @@ class CreateChannelForm extends Component{
 				<input type= 'text' 
 					placeholder ='Philip fry is a character from the show futurama.'
 					style = {inputContainer}
-					value = {this.state.username}
+					value = {this.state.description}
 					onChange ={this.onDescriptionChange.bind(this)}
 						required></input>
 				</label>
 				<br/>
-				<button style ={buttonStyle}>submit</button>
+				<button style ={buttonStyle} onClick = {this.createChannel.bind(this)}>submit</button>
 				<br/>
 		</div>
 		)

@@ -64,9 +64,8 @@ class UserDetails extends Component{
 	}
 
 	renderInfo(){
-		console.log(this.state.isCreated)
 		if(this.state.isCreated){
-			return (<CreateChannelForm name = {this.state.user.username} isCreated = {this.state.isCreated}></CreateChannelForm>)
+			return (<CreateChannelForm name = {this.state.user.username} isCreated = {this.toggleChannelCreation.bind(this)}></CreateChannelForm>)
 		}else if(this.state.channelSelected !== null){
 			return (
 				<div>
@@ -114,6 +113,9 @@ const styles ={
 		fontWeight: 'bold',
 		border: '2px solid black',
 		borderRadius: '12px'
+	},
+	creationStyle:{
+		
 	}
 	
 }
